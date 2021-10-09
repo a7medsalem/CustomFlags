@@ -1,4 +1,4 @@
-﻿namespace CustomFlags
+﻿namespace CustomFlags.Demo
 {
     internal class ColorFlag : Flag
     {

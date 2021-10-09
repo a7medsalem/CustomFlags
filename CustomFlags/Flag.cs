@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +54,51 @@ namespace CustomFlags
             int index = 0;
             return this._flags.Aggregate(0, (sum, b) => (int)(sum + b * Math.Pow(2, index++)));
         }
+        public override string ToString()
+        {
+            return string.Concat(_flags);
+        }
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
+        
+        
+        public static void Switch(Switch switchCases)
+        {
+            var selectedCase = switchCases.FirstOrDefault(c => c.Flag == switchCases.Flag);
+            if (selectedCase != null)
+            {
+                selectedCase.Action?.Invoke();
+                if(selectedCase.BreakAfter)
+                {
+                    return;
+                }
+            }
+
+            var defaultCase = switchCases.FirstOrDefault(c => c is Default);
+            if (defaultCase != null)
+            {
+                defaultCase.Action?.Invoke();
+            }
+        }
+        public static T Switch<T>(Switch<T> switchCases) where T : class
+        {
+            var selectedCase = switchCases.FirstOrDefault(c => c.Flag == switchCases.Flag);
+            if (selectedCase != null)
+            {
+                return selectedCase.Func?.Invoke();
+            }
+
+            var defaultCase = switchCases.FirstOrDefault(c => c is Default<T>);
+            if (defaultCase != null)
+            {
+                return defaultCase.Func?.Invoke();
+            }
+
+            return default(T);
+        }
+
 
         private static Flag Bitwise(Flag first, Flag other, Func<byte, byte, byte> operation)
         {
@@ -132,6 +176,7 @@ namespace CustomFlags
 
             return flag.ToInteger() <= integer;
         }
+        
         public static explicit operator int (Flag flag)
         {
             if (flag.ExceedMaxInt())

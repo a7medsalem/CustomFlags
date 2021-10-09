@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomFlags", "CustomFlags\CustomFlags.csproj", "{A69084DE-8BCC-46DE-A625-54416B1903AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomFlags.Demo", "CustomFlags.Demo\CustomFlags.Demo.csproj", "{EBE41761-9E6A-48FE-B6A7-5E8613D7CA58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A69084DE-8BCC-46DE-A625-54416B1903AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A69084DE-8BCC-46DE-A625-54416B1903AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A69084DE-8BCC-46DE-A625-54416B1903AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBE41761-9E6A-48FE-B6A7-5E8613D7CA58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBE41761-9E6A-48FE-B6A7-5E8613D7CA58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBE41761-9E6A-48FE-B6A7-5E8613D7CA58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBE41761-9E6A-48FE-B6A7-5E8613D7CA58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
