@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomFlags", "CustomFlags\CustomFlags.csproj", "{A69084DE-8BCC-46DE-A625-54416B1903AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A69084DE-8BCC-46DE-A625-54416B1903AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A69084DE-8BCC-46DE-A625-54416B1903AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A69084DE-8BCC-46DE-A625-54416B1903AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A69084DE-8BCC-46DE-A625-54416B1903AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBB2A9ED-216A-4581-A367-BFA30BB6C402}
+	EndGlobalSection
+EndGlobal
