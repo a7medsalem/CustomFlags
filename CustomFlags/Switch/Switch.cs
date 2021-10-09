@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace CustomFlags
+﻿namespace CustomFlags
 {
-    public class Switch : List<Case>
+    public class Switch : SwitchObjects.Components.Switch<Flag>
     {
-        public Switch(Flag flag)
+        public Switch(Flag selected) : base(selected)
         {
-            this.Flag = flag;
         }
-        public Flag Flag { get; }
     }
+
 }

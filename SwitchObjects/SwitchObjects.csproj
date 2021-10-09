@@ -5,8 +5,4 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SwitchObjects\SwitchObjects.csproj" />
-  </ItemGroup>
-
 </Project>

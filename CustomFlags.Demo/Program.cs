@@ -34,6 +34,9 @@ namespace CustomFlags.Demo
 
         static void Main(string[] args)
         {
+
+            Console.WriteLine("============= Test flags with bitwise/compare operators =============");
+
             var f_n = new Flag(10, false);
             var f_5 = new Flag(10, 5);
             var f_6 = new Flag(10, 6);
@@ -50,12 +53,18 @@ namespace CustomFlags.Demo
                 Console.WriteLine("Selected flag 5 or 6 using > overload");
             }
 
+
+            Console.WriteLine("=====================================================================\n");
+            Console.WriteLine("=================== Test flags if/else operators  ===================");
+
             Console.WriteLine(GetColor(ColorFlag.BLUE | ColorFlag.BLACK));
             Console.WriteLine(GetColor(ColorFlag.ALL));
 
+            Console.WriteLine("=====================================================================\n");
+            Console.WriteLine("============== Test flags with switch without return  ===============");
+            
             int value = (int)selected;
             double dValue = (int)selected;
-
 
             ColorFlag color = ColorFlag.RED;
             //
@@ -76,6 +85,9 @@ namespace CustomFlags.Demo
                         Action = () => Console.WriteLine("Default color is selected.")
                     },
                 });
+
+            Console.WriteLine("=====================================================================\n");
+            Console.WriteLine("================ Test flags with switch with return =================");
 
             string result = Flag.Switch(
                 new Switch<string>(color)

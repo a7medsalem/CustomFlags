@@ -1,7 +1,6 @@
 ﻿namespace CustomFlags
 {
-    public class Default : Case
+    public class Default : SwitchObjects.Components.Default<Flag>
     {
-        public Default() : base(null) { }
     }
 }

@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CustomFlags\CustomFlags.csproj" />
+    <ProjectReference Include="..\SwitchObjects\SwitchObjects.csproj" />
   </ItemGroup>
 
 </Project>

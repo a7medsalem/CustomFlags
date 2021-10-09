@@ -66,37 +66,11 @@ namespace CustomFlags
         
         public static void Switch(Switch switchCases)
         {
-            var selectedCase = switchCases.FirstOrDefault(c => c.Flag == switchCases.Flag);
-            if (selectedCase != null)
-            {
-                selectedCase.Action?.Invoke();
-                if(selectedCase.BreakAfter)
-                {
-                    return;
-                }
-            }
-
-            var defaultCase = switchCases.FirstOrDefault(c => c is Default);
-            if (defaultCase != null)
-            {
-                defaultCase.Action?.Invoke();
-            }
+            SwitchObjects.Switcher.Switch(switchCases);
         }
-        public static T Switch<T>(Switch<T> switchCases) where T : class
+        public static RT Switch<RT>(Switch<RT> switchCases) where RT : class
         {
-            var selectedCase = switchCases.FirstOrDefault(c => c.Flag == switchCases.Flag);
-            if (selectedCase != null)
-            {
-                return selectedCase.Func?.Invoke();
-            }
-
-            var defaultCase = switchCases.FirstOrDefault(c => c is Default<T>);
-            if (defaultCase != null)
-            {
-                return defaultCase.Func?.Invoke();
-            }
-
-            return default(T);
+            return SwitchObjects.Switcher.Switch(switchCases);
         }
 
 

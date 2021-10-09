@@ -1,17 +1,9 @@
-﻿using System;
-
-namespace CustomFlags
+﻿namespace CustomFlags
 {
-    public class Case
+    public class Case : SwitchObjects.Components.Case<Flag>
     {
-        public Case(Flag flag) 
+        public Case(Flag option) : base(option)
         {
-            this.Flag = flag;
-            this.BreakAfter = true;
         }
-        //
-        internal Flag Flag { get; }
-        public Action Action { get; set; }
-        public bool BreakAfter { get; set; }
     }
 }

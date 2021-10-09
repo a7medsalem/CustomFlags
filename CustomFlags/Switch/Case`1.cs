@@ -1,15 +1,7 @@
-﻿using System;
-
-namespace CustomFlags
+﻿namespace CustomFlags
 {
-    public class Case<T>
+    public class Case<T> : SwitchObjects.Components.Case<Flag, T>
     {
-        public Case(Flag flag)
-        {
-            this.Flag = flag;
-        }
-        //
-        internal Flag Flag { get; }
-        public Func<T> Func { set; get; }
+        public Case(Flag option) : base(option) { }
     }
 }
