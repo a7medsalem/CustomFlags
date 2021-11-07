@@ -2,11 +2,32 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SwitchObjects\SwitchObjects.csproj" />
+    <PackageReference Include="ILRepack" Version="2.0.18" >
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.2" >
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.11.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\SwitchObjects\SwitchObjects.csproj" >
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
   </ItemGroup>
 
+  <Import Project="nugetinfo.props"/>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+  
 </Project>

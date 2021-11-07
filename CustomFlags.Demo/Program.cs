@@ -4,6 +4,22 @@ using System.Linq;
 
 namespace CustomFlags.Demo
 {
+    class RangeFlag : Flag
+    {
+        public static RangeFlag NON     = new RangeFlag(false);
+        public static RangeFlag RED     = new RangeFlag(1);
+        public static RangeFlag YELLOW  = new RangeFlag(2);
+        public static RangeFlag BLUE    = new RangeFlag(3);
+        public static RangeFlag RED_YELLOW_BLUE = new RangeFlag(1,3,true);
+        public static RangeFlag WHITE   = new RangeFlag(5);
+        public static RangeFlag ALL     = new RangeFlag(true);
+        
+        private const int LENGTH = 128;
+        private RangeFlag(bool allTrue) : base(LENGTH, allTrue) { }
+        private RangeFlag(params int[] indices) : base(LENGTH, indices) { }
+        private RangeFlag(int startRange, int endRange, bool trueInRange) : base(LENGTH, startRange, endRange, trueInRange) { }
+    }
+
     class Program
     {
         private static string GetColor(Flag flag)
@@ -110,6 +126,12 @@ namespace CustomFlags.Demo
                     },
                 });
             Console.WriteLine(result);
+
+
+            if((RangeFlag.RED & RangeFlag.RED_YELLOW_BLUE) > 0)
+            {
+                int x = 0;
+            }
 
 
             Console.WriteLine("End of main");

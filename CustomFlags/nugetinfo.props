@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <includeSymbols>true</includeSymbols>
+    <symbolPackageFormat>snupkg</symbolPackageFormat>
+    <id>CustomFlags</id>
+    <title>Custom flags for CSharp projects</title>
+    <version>0.0.1</version>
+    <authors>Ahmed Salem</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <packageLicenseExpression>MIT</packageLicenseExpression>
+    <description>This nuget provide flag class that can act like enum flags.
+It supports main functionalty like bitwise operations ( | &amp; ), implicit convertion to bool and comparing with integers.
+It's independent from machine architect limits so it can provide as many as user needs from flags count.
+    </description>
+    <packageReleaseNotes>## Added
+- Identify Flag class.
+- Add Switch class and its cases. 
+    </packageReleaseNotes>
+    <packageTags>flag flags enum custom-flags</packageTags>
+    <repositoryType>git</repositoryType>
+    <repositoryUrl>https://github.com/a7medsalem/CustomFlags</repositoryUrl>
+    <readme>README.md</readme>
+  </PropertyGroup>
+</Project>

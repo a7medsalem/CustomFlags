@@ -1,0 +1,1 @@
+msbuild -t:restore -t:pack -p:Configuration="Release" -p:Plateform=AnyCPU -p:PackageOutputPath=~nuget

@@ -12,6 +12,11 @@ namespace CustomFlags
         {
             this._flags = flags;
         }
+        /// <summary>
+        ///     Create a flag with all its bit set to 0 or 1;
+        /// </summary>
+        /// <param name="length">Flag length</param>
+        /// <param name="allTrue">Set flag bit to 1 if true</param>
         public Flag(int length, bool allTrue = false)
         {
             if (length < 0)
@@ -23,6 +28,11 @@ namespace CustomFlags
                 this._flags[i] = (byte)(allTrue ? 1 : 0);
             }
         }
+        /// <summary>
+        ///     Create a flag with given bit indices setted to 1;
+        /// </summary>
+        /// <param name="length">Flag length.</param>
+        /// <param name="indices">True bit indices.</param>
         public Flag(int length, params int[] indices)
         {
             if (length < 0)
@@ -45,6 +55,40 @@ namespace CustomFlags
                 this._flags[indices[i]] = 1;
             }
         }
+        /// <summary>
+        ///     Create a flag with given bit withen range setted to 0 or 1;
+        /// </summary>
+        /// <param name="length">Flag length.</param>
+        /// <param name="startIndex">Range start index.</param>
+        /// <param name="endIndex">Range end index.</param>
+        /// <param name="trueInRange">Set indices inside the range to 1 or 0, out of the range will be inversed.</param>
+        public Flag(int length, int startIndex, int endIndex, bool trueInRange)
+        {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException("Lenght can't be zero.");
+
+            if(startIndex < 0 && endIndex < 0)
+                throw new ArgumentException("Start\\End index can't be negative.");
+
+            if(startIndex > endIndex)
+                throw new ArgumentException("End index can't be less than start index.");
+
+            if(endIndex >= length)
+                throw new ArgumentOutOfRangeException("Max index must be less than given length.");
+
+            this._flags = new byte[length];
+            for (int i = 0; i < length; i++)
+            {
+                if(i >= startIndex && i <= endIndex)
+                {
+                    this._flags[i] = (byte)(trueInRange ? 1 : 0);
+                }
+                else
+                {
+                    this._flags[i] = (byte)(trueInRange ? 0 : 1);
+                }
+            }
+        }
         protected bool ExceedMaxInt()
         {
             return this._flags.Length > 64 && this._flags.TakeWhile((b, i) => i > 64 && b > 0).Any();
@@ -63,11 +107,16 @@ namespace CustomFlags
             return this.ToString().GetHashCode();
         }
         
-        
+        /// <summary>
+        ///     Switch over custom flags using Switch object.
+        /// </summary>
         public static void Switch(Switch switchCases)
         {
             SwitchObjects.Switcher.Switch(switchCases);
         }
+        /// <summary>
+        ///     Switch over custom flags using Switch object that have return type.
+        /// </summary>
         public static RT Switch<RT>(Switch<RT> switchCases) where RT : class
         {
             return SwitchObjects.Switcher.Switch(switchCases);
