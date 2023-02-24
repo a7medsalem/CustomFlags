@@ -37,10 +37,11 @@ namespace CustomFlags
             if (length < 0)
                 throw new ArgumentOutOfRangeException(nameof(length), "Length can't be zero.");
 
-            this._flags = new byte[length];
-            for (int i = 0; i < length; i++)
+            int l = FlagHelper.FlagLengthToArrayLength(length);
+            this._flags = new byte[l];
+            for (int i = 0; i < l; i++)
             {
-                this._flags[i] = (byte)(allTrue ? 1 : 0);
+                this._flags[i] = allTrue ? (byte)0xFF : (byte)0x00;
             }
         }
         /// <summary>
@@ -64,10 +65,13 @@ namespace CustomFlags
                     throw new ArgumentOutOfRangeException(nameof(indices), "Max index must be less than given length.");
             }
 
-            this._flags = new byte[length];
+            int l = FlagHelper.FlagLengthToArrayLength(length);
+            this._flags = new byte[l];
             for (int i = 0; i < indices.Length; i++)
             {
-                this._flags[indices[i]] = 1;
+                var index = indices[i];
+                var flagIndex = index / 8;
+                this._flags[flagIndex] |= FlagHelper.BitIndexToByte(index);
             }
         }
         /// <summary>
@@ -91,16 +95,32 @@ namespace CustomFlags
             if(endIndex >= length)
                 throw new ArgumentOutOfRangeException(nameof(endIndex), "Max index must be less than given length.");
 
-            this._flags = new byte[length];
+            int l = FlagHelper.FlagLengthToArrayLength(length);
+            this._flags = new byte[l];
             for (int i = 0; i < length; i++)
             {
-                if(i >= startIndex && i <= endIndex)
+                var flagIndex = i / 8;
+                if (i >= startIndex && i <= endIndex)
                 {
-                    this._flags[i] = (byte)(trueInRange ? 1 : 0);
+                    if (trueInRange)
+                    {
+                        this._flags[flagIndex] |= FlagHelper.BitIndexToByte(i);
+                    }
+                    else
+                    {
+                        this._flags[flagIndex] &= FlagHelper.BitIndexToByteReverse(i);
+                    }
                 }
                 else
                 {
-                    this._flags[i] = (byte)(trueInRange ? 0 : 1);
+                    if (trueInRange)
+                    {
+                        this._flags[flagIndex] &= FlagHelper.BitIndexToByteReverse(i);
+                    }
+                    else
+                    {
+                        this._flags[flagIndex] |= FlagHelper.BitIndexToByte(i);
+                    }
                 }
             }
         }
@@ -110,7 +130,7 @@ namespace CustomFlags
         /// <returns></returns>
         protected bool ExceedMaxInt()
         {
-            return this._flags.Length > 64 && this._flags.TakeWhile((b, i) => i > 64 && b > 0).Any();
+            return this._flags.Length > 4 && this._flags.Skip(4).Any(b => b > 0);
         }
         /// <summary>
         ///     Convert flag to integer value.
@@ -119,7 +139,7 @@ namespace CustomFlags
         protected int ToInteger()
         {
             int index = 0;
-            return this._flags.Aggregate(0, (sum, b) => (int)(sum + b * Math.Pow(2, index++)));
+            return this._flags.SelectMany(FlagHelper.ToBitArray).Aggregate(0, (sum, b) => (int)(sum + b * Math.Pow(2, index++)));
         }
         /// <summary>
         ///     Get string representation of the flag.
@@ -127,7 +147,8 @@ namespace CustomFlags
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Concat(_flags);
+            var bits = _flags.SelectMany(b => FlagHelper.ToBitString(b).ToCharArray().Reverse());
+            return string.Concat(bits);
         }
         /// <summary>
         ///     Get hash code of the flag.
@@ -167,10 +188,10 @@ namespace CustomFlags
         private static Flag Bitwise(Flag first, Flag other, Func<byte, byte, byte> operation)
         {
             if (first == null || other == null)
-                throw new ArgumentNullException("Can't bitwise null objects");
+                throw new ArgumentNullException("Operand", "Can't bitwise null objects");
 
             if (first._flags.Length != other._flags.Length)
-                throw new ArgumentException("Both flags must be same length");
+                throw new ArgumentException("Both flags must be same length", "Operand");
 
             byte[] resultOnes = new byte[first._flags.Length];
             for (int i = 0; i < first._flags.Length; i++)
@@ -203,7 +224,7 @@ namespace CustomFlags
         public static bool operator >(Flag flag, int integer)
         {
             if (flag == null)
-                throw new ArgumentNullException("Can't compare null flag.");
+                throw new ArgumentNullException(nameof(flag), "Can't compare null flag.");
 
             if (flag.ExceedMaxInt())
                 return true;
@@ -213,7 +234,7 @@ namespace CustomFlags
         public static bool operator >=(Flag flag, int integer)
         {
             if (flag == null)
-                throw new ArgumentNullException("Can't compare null flag.");
+                throw new ArgumentNullException(nameof(flag), "Can't compare null flag.");
 
             if (flag.ExceedMaxInt())
                 return true;
@@ -223,7 +244,7 @@ namespace CustomFlags
         public static bool operator <(Flag flag, int integer)
         {
             if (flag == null)
-                throw new ArgumentNullException("Can't compare null flag.");
+                throw new ArgumentNullException(nameof(flag), "Can't compare null flag.");
 
             if (flag.ExceedMaxInt())
                 return false;
@@ -233,7 +254,7 @@ namespace CustomFlags
         public static bool operator <=(Flag flag, int integer)
         {
             if (flag == null)
-                throw new ArgumentNullException("Can't compare null flag.");
+                throw new ArgumentNullException(nameof(flag), "Can't compare null flag.");
 
             if (flag.ExceedMaxInt())
                 return false;
@@ -243,9 +264,7 @@ namespace CustomFlags
 
         public static explicit operator bool(Flag flag)
         {
-            if (flag == null) return false;
-            //
-            return flag._flags.Any(f => f > 0);
+            return flag ? true : false;
         }
 
         public static explicit operator int (Flag flag)

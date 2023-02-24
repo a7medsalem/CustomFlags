@@ -138,7 +138,7 @@ namespace CustomFlags.Tests
         }
 
         [Test]
-        public void ToString()
+        public void ToStringTest()
         {
             Assert.AreEqual("0000000000000000", TestFlag.NON.ToString());
             Assert.AreEqual("1000000000000000", TestFlag._00.ToString());
@@ -159,6 +159,30 @@ namespace CustomFlags.Tests
             Assert.AreEqual("0000000000000001", TestFlag._15.ToString());
             Assert.AreEqual("1111111111111111", TestFlag.ALL.ToString());
             Assert.AreEqual("1000000000000001", (TestFlag._00 | TestFlag._15).ToString());
+        }
+
+        [Test]
+        public void ToInteger()
+        {
+            Assert.AreEqual(0, (int)new TestFlag());
+            Assert.AreEqual(1, (int)new TestFlag(0));
+            Assert.AreEqual(2, (int)new TestFlag(1));
+            Assert.AreEqual(3, (int)new TestFlag(0, 1));
+            Assert.AreEqual(int.MaxValue, 
+                (int)new Flag(32, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30));
+        }
+
+        [Test]
+        public void CreateFlagUsingIndexRange()
+        {
+            Flag f1 = new Flag(16, 0, 7, true);
+            Assert.AreEqual(0x00FF, (ushort)f1);
+            
+            Flag f2 = new Flag(16, 0, 7, false);
+            Assert.AreEqual(0xFF00, (ushort)f2);
+
+            Flag f3 = new Flag(16, 4, 7, true);
+            Assert.AreEqual(0x00F0, (ushort)f3);
         }
     }
 }
