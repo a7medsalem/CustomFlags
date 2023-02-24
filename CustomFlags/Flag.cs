@@ -129,9 +129,30 @@ namespace CustomFlags
         {
             return string.Concat(_flags);
         }
+        /// <summary>
+        ///     Get hash code of the flag.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return this.ToString().GetHashCode();
+        }
+        /// <summary>
+        ///     Check if two flags are equal.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            switch (obj)
+            {
+                case null:
+                    return false;
+                case Flag other:
+                    return this._flags.SequenceEqual(other._flags);
+                default:
+                    return false;
+            }
         }
         /// <summary>
         ///    Get a copy of internal array.
@@ -219,7 +240,14 @@ namespace CustomFlags
 
             return flag.ToInteger() <= integer;
         }
-        
+
+        public static explicit operator bool(Flag flag)
+        {
+            if (flag == null) return false;
+            //
+            return flag._flags.Any(f => f > 0);
+        }
+
         public static explicit operator int (Flag flag)
         {
             if (flag.ExceedMaxInt())
