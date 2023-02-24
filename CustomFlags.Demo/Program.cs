@@ -51,7 +51,7 @@ namespace CustomFlags.Demo
         static void Main(string[] args)
         {
 
-            Console.WriteLine("============= Test flags with bitwise/compare operators =============");
+            Console.WriteLine("============= Test Bitwise, true/false and compare operators =============\n");
 
             var f_n = new Flag(10, false);
             var f_5 = new Flag(10, 5);
@@ -62,38 +62,45 @@ namespace CustomFlags.Demo
             var selected = f_6;
             if (selected & f56)
             {
-                Console.WriteLine("Selected flag 5 or 6 using boolean overload");
+                Console.WriteLine("[✓] Selected flag is 5 or 6, using true/false operator.");
             }
             if ((selected & f56) > 0)
             {
-                Console.WriteLine("Selected flag 5 or 6 using > overload");
+                Console.WriteLine("[✓] Selected flag is 5 or 6, using > operator.");
             }
 
-
-            Console.WriteLine("=====================================================================\n");
-            Console.WriteLine("=================== Test flags if/else operators  ===================");
-
-            Console.WriteLine(GetColor(ColorFlag.BLUE | ColorFlag.BLACK));
-            Console.WriteLine(GetColor(ColorFlag.ALL));
-
-            Console.WriteLine("=====================================================================\n");
-            Console.WriteLine("============== Test flags with switch without return  ===============");
             
-            int value = (int)selected;
-            double dValue = (int)selected;
 
+            Console.WriteLine("\n\n");
+            Console.WriteLine("=================== Test ToString function  ===================\n");
+            Console.WriteLine("[✓] Index number 5 is selected, result is " + f_5.ToString());
+            Console.WriteLine("[✓] Index number 5 and 6 are selected, result is " + f56.ToString());
+
+
+
+
+            Console.WriteLine("\n\n");
+            Console.WriteLine("=================== Test if/else operators  ===================\n");
+            Console.WriteLine("[✓] Excepted are Blue and Black, result is " + GetColor(ColorFlag.BLUE | ColorFlag.BLACK));
+            Console.WriteLine("[✓] Excepted are all colors, result is " + GetColor(ColorFlag.ALL));
+
+            
+            
+            Console.WriteLine("\n\n");
+            Console.WriteLine("============== Test switch without return  ===============\n");
             ColorFlag color = ColorFlag.RED;
+            Console.WriteLine("[✓] Excepted is Red");
             //
             Flag.Switch(
                 new Switch(color)
                 {
                     new Case(ColorFlag.BLUE)
                     {
-                        Action = () => Console.WriteLine("Color is blue.")
+                        Action = () => Console.WriteLine("Result is blue.")
                     },
                     new Case(ColorFlag.RED)
                     {
-                        Action = () => Console.WriteLine("Color is red.")
+                        Action = () => Console.WriteLine("Result is red.")
                     },
                     //
                     new Default
@@ -102,9 +109,12 @@ namespace CustomFlags.Demo
                     },
                 });
 
-            Console.WriteLine("=====================================================================\n");
-            Console.WriteLine("================ Test flags with switch with return =================");
 
+            
+            
+            Console.WriteLine("\n\n");
+            Console.WriteLine("================ Test switch with return =================");
+            Console.WriteLine("[✓] Excepted is Red");
             string result = Flag.Switch(
                 new Switch<string>(color)
                 {
@@ -125,7 +135,7 @@ namespace CustomFlags.Demo
                         Func = () => "Red"
                     },
                 });
-            Console.WriteLine(result);
+            Console.WriteLine("Result is " + result);
 
 
             if((RangeFlag.RED & RangeFlag.RED_YELLOW_BLUE) > 0)
