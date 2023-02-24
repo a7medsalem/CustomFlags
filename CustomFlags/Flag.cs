@@ -7,8 +7,23 @@ namespace CustomFlags
 {
     public class Flag
     {
+        /// <summary>
+        ///     Switch over custom flags using Switch object.
+        /// </summary>
+        public static void Switch(Switch switchCases)
+        {
+            SwitchObjects.Switcher.Switch(switchCases);
+        }
+        /// <summary>
+        ///     Switch over custom flags using Switch object that have return type.
+        /// </summary>
+        public static RT Switch<RT>(Switch<RT> switchCases) where RT : class
+        {
+            return SwitchObjects.Switcher.Switch(switchCases);
+        }
+
         private byte[] _flags;
-        private Flag(byte[] flags)
+        protected Flag(byte[] flags)
         {
             this._flags = flags;
         }
@@ -89,15 +104,27 @@ namespace CustomFlags
                 }
             }
         }
+        /// <summary>
+        ///     Check if flag bytes exceed max integer value.
+        /// </summary>
+        /// <returns></returns>
         protected bool ExceedMaxInt()
         {
             return this._flags.Length > 64 && this._flags.TakeWhile((b, i) => i > 64 && b > 0).Any();
         }
+        /// <summary>
+        ///     Convert flag to integer value.
+        /// </summary>
+        /// <returns>Integer value of the flag, int.MaxInt if it exceed the maximum integer value.</returns>
         protected int ToInteger()
         {
             int index = 0;
             return this._flags.Aggregate(0, (sum, b) => (int)(sum + b * Math.Pow(2, index++)));
         }
+        /// <summary>
+        ///     Get string representation of the flag.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Concat(_flags);
@@ -106,23 +133,16 @@ namespace CustomFlags
         {
             return this.ToString().GetHashCode();
         }
-        
         /// <summary>
-        ///     Switch over custom flags using Switch object.
+        ///    Get a copy of internal array.
         /// </summary>
-        public static void Switch(Switch switchCases)
+        /// <returns></returns>
+        protected byte[] GetInternalArray()
         {
-            SwitchObjects.Switcher.Switch(switchCases);
-        }
-        /// <summary>
-        ///     Switch over custom flags using Switch object that have return type.
-        /// </summary>
-        public static RT Switch<RT>(Switch<RT> switchCases) where RT : class
-        {
-            return SwitchObjects.Switcher.Switch(switchCases);
+            return this._flags.ToArray();
         }
 
-
+        #region Overriden operators
         private static Flag Bitwise(Flag first, Flag other, Func<byte, byte, byte> operation)
         {
             if (first == null || other == null)
@@ -207,5 +227,7 @@ namespace CustomFlags
             else
                 return flag.ToInteger();
         }
+
+        #endregion
     }
 }
