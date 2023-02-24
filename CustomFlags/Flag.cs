@@ -35,7 +35,7 @@ namespace CustomFlags
         public Flag(int length, bool allTrue = false)
         {
             if (length < 0)
-                throw new ArgumentOutOfRangeException("Lenght can't be zero.");
+                throw new ArgumentOutOfRangeException(nameof(length), "Length can't be zero.");
 
             this._flags = new byte[length];
             for (int i = 0; i < length; i++)
@@ -51,17 +51,17 @@ namespace CustomFlags
         public Flag(int length, params int[] indices)
         {
             if (length < 0)
-                throw new ArgumentOutOfRangeException("Lenght can't be zero.");
+                throw new ArgumentOutOfRangeException(nameof(length), "Length can't be zero.");
 
             if (indices.Length > 0)
             {
                 int minIndex = indices.Min();
                 if (minIndex < 0)
-                    throw new ArgumentOutOfRangeException("Index can't be negative number.");
+                    throw new ArgumentOutOfRangeException(nameof(indices), "Index can't be negative number.");
 
                 int maxIndex = indices.Max();
                 if (maxIndex >= length)
-                    throw new ArgumentOutOfRangeException("Max index must be less than given length.");
+                    throw new ArgumentOutOfRangeException(nameof(indices), "Max index must be less than given length.");
             }
 
             this._flags = new byte[length];
@@ -80,16 +80,16 @@ namespace CustomFlags
         public Flag(int length, int startIndex, int endIndex, bool trueInRange)
         {
             if (length < 0)
-                throw new ArgumentOutOfRangeException("Lenght can't be zero.");
+                throw new ArgumentOutOfRangeException(nameof(length), "Length can't be zero.");
 
-            if(startIndex < 0 && endIndex < 0)
+            if (startIndex < 0 && endIndex < 0)
                 throw new ArgumentException("Start\\End index can't be negative.");
 
             if(startIndex > endIndex)
                 throw new ArgumentException("End index can't be less than start index.");
 
             if(endIndex >= length)
-                throw new ArgumentOutOfRangeException("Max index must be less than given length.");
+                throw new ArgumentOutOfRangeException(nameof(endIndex), "Max index must be less than given length.");
 
             this._flags = new byte[length];
             for (int i = 0; i < length; i++)
